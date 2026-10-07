@@ -19,4 +19,5 @@ Aplicație CRM educațională pentru o firmă care vinde, instalează și între
  
 - Ziua 1: instalarea mediului de lucru și prima pagină.
 - Ziua 2: înțelegerea uneltelor, README, .gitignore și primele commit-uri.
+- Documentația proiectului se păstrează în folderul docs.
 

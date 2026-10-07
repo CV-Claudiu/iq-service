@@ -18,3 +18,15 @@ $dataOra       = date('d.m.Y H:i:s');
     <title><?php echo $numeAplicatie; ?></title>
 </head>
 <body>
+    <h1><?php echo $numeAplicatie; ?></h1>
+    <p><?php echo $descriere; ?></p>
+ 
+    <h2>Mediul de lucru funcționează</h2>
+    <ul>
+        <li>Server web: <?php echo $_SERVER['SERVER_SOFTWARE']; ?></li>
+        <li>Versiune PHP: <?php echo $versiunePhp; ?></li>
+        <li>Data și ora serverului: <?php echo $dataOra; ?></li>
+        <li>Fișierul executat: <?php echo __FILE__; ?></li>
+    </ul>
+</body>
+</html>
