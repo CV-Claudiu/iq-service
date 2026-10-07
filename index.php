@@ -1,19 +1,20 @@
 <?php
-
-declare(strict_types=1);
-
-$appName = 'IQ SERVICE';
+// IQ SERVICE - pagina de start (Ziua 2)
+// Pagina afișează informații despre mediul de lucru,
+// ca să vedem că Apache și PHP lucrează împreună.
+ 
+date_default_timezone_set('Europe/Bucharest');
+ 
+$numeAplicatie = 'IQ SERVICE';
+$descriere     = 'Aplicație CRM pentru service echipamente de automatizare';
+$versiunePhp   = phpversion();
+$dataOra       = date('d.m.Y H:i:s');
 ?>
 <!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($appName, ENT_QUOTES, 'UTF-8') ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo $numeAplicatie; ?></title>
 </head>
 <body>
-    <h1><?= htmlspecialchars($appName, ENT_QUOTES, 'UTF-8') ?></h1>
-    <p>Prima pagină PHP rulează corect pe serverul local.</p>
-    <p>Astăzi am pregătit mediul de lucru pentru aplicația noastră. !!!</p>
-</body>
-</html>

@@ -1,0 +1,22 @@
+# IQ SERVICE
+ 
+Aplicație CRM educațională pentru o firmă care vinde, instalează și întreține echipamente de automatizare.
+ 
+## Tehnologii
+ 
+- PHP 8 (rulat prin XAMPP)
+- Apache (server web)
+- MariaDB / MySQL (bază de date)
+- Git (versionare)
+ 
+## Cum pornesc proiectul pe calculatorul meu
+ 
+1. Pornesc Apache și MySQL din XAMPP Control Panel.
+2. Proiectul se află în C:\xampp\htdocs\iq-service
+3. Deschid în browser: http://localhost/iq-service/
+ 
+## Jurnal
+ 
+- Ziua 1: instalarea mediului de lucru și prima pagină.
+- Ziua 2: înțelegerea uneltelor, README, .gitignore și primele commit-uri.
+
