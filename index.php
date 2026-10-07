@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$appName = 'IQ SERVICE!!';
+$appName = 'IQ SERVICE';
 ?>
 <!DOCTYPE html>
 <html lang="ro">

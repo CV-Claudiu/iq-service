@@ -1,0 +1,15 @@
+# ==== IQ SERVICE - fișiere pe care Git NU le urmărește ====
+ 
+# Configurația locală cu parole (o creăm în Ziua 3)
+.env
+ 
+# Fișiere temporare de test și diagnostic
+info.php
+test*.php
+ 
+# Jurnale (loguri)
+*.log
+ 
+# Fișiere create automat de Windows
+Thumbs.db
+desktop.ini
