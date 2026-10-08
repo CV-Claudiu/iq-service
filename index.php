@@ -5,7 +5,7 @@
  
 date_default_timezone_set('Europe/Bucharest');
  
-$numeAplicatie = 'IQ SERVICE!';
+$numeAplicatie = 'IQ SERVICE!'; 
 $descriere     = 'Aplicație CRM pentru service echipamente de automatizare';
 $versiunePhp   = phpversion();
 $dataOra       = date('d.m.Y H:i:s');
