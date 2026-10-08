@@ -9,6 +9,7 @@ $numeAplicatie = 'IQ SERVICE!';
 $descriere     = 'Aplicație CRM pentru service echipamente de automatizare';
 $versiunePhp   = phpversion();
 $dataOra       = date('d.m.Y H:i:s');
+$numecalculator= gethostname();
 ?>
 <!DOCTYPE html>
 <html lang="ro">
@@ -20,6 +21,7 @@ $dataOra       = date('d.m.Y H:i:s');
 <body>
     <h1><?php echo $numeAplicatie; ?></h1>
     <p><?php echo $descriere; ?></p>
+    <p>Calculator: <?php echo $numecalculator; ?></p>
  
     <h2>Mediul de lucru funcționează</h2>
     <ul>
