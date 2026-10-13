@@ -1,0 +1,5 @@
+# IQ SERVICE - lacătul de la intrare
+# Blochează accesul din browser la TOT ce se află în folderul proiectului
+# (.env, config, database, app, storage, docs...).
+# Singura ușă deschisă este folderul public/, care are propriul .htaccess.
+Require all denied

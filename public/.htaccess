@@ -1,0 +1,8 @@
+# IQ SERVICE - ușa din față
+# Doar fișierele din acest folder pot fi cerute din browser.
+Require all granted
+ 
+# Chiar și aici, fișierele care încep cu punct (ex.: .htaccess) rămân ascunse.
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
