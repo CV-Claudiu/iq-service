@@ -55,6 +55,7 @@ try {
             <li>Server: <?php echo htmlspecialchars($infoBaza['versiune']); ?></li>
             <li>Ora serverului de baze de date: <?php echo htmlspecialchars($infoBaza['ora']); ?></li>
             <li>Versiune PHP: <?php echo phpversion(); ?></li>
+            <p><a href="clienti.php">Vizualizare lista clienți</a></p>
         </ul>
     <?php else: ?>
         <p style="color: red;"><strong>Nu ne putem conecta la baza de date.</strong></p>
