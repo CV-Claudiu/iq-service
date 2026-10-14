@@ -24,7 +24,16 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti O
 <div class="container py-4">
  
     <h1>Clienți</h1>
+    <h1>Clienți</h1>
+ 
+    <?php if (isset($_GET['adaugat'])): ?>
+        <div class="alert alert-success">Clientul a fost adăugat.</div>
+    <?php endif; ?>
+ 
+    <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
+ 
     <p class="text-muted">Total clienți: <?php echo count($clienti); ?></p>
+
  
     <table class="table table-striped table-hover">
         <thead class="table-dark">
