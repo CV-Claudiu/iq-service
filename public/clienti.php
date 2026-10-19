@@ -52,7 +52,7 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti O
             <?php foreach ($clienti as $client): ?>
                 <tr>
                     <td><?php echo $client['id']; ?></td>
-                    <td><?php echo htmlspecialchars($client['denumire']); ?></td>
+                    <td><a href="client.php?id=<?php echo $client['id']; ?>"><?php echo htmlspecialchars($client['denumire']); ?></a></td>
                     <td><?php echo htmlspecialchars($client['oras']); ?></td>
                     <td><?php echo htmlspecialchars($client['telefon'] ?? ''); ?></td>
                     <td><?php echo htmlspecialchars($client['email'] ?? ''); ?></td>
