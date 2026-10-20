@@ -10,7 +10,7 @@ require BASE_PATH . '/config/database.php';
 $config = loadEnv(BASE_PATH . '/.env');
 $pdo    = getConnection($config);
  
-$clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti ORDER BY denumire')->fetchAll();
+$clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti WHERE activ = 1  ORDER BY id')->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="ro">
@@ -30,6 +30,9 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti O
     <?php endif; ?>
     <?php if (isset($_GET['modificat'])): ?>
         <div class="alert alert-success">Modificările au fost salvate.</div>
+    <?php endif; ?>
+    <?php if (isset($_GET['dezactivat'])): ?>
+        <div class="alert alert-warning">Clientul a fost dezactivat.</div>
     <?php endif; ?>
 
     <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
