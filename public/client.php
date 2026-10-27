@@ -12,7 +12,7 @@ $pdo    = getConnection($config);
  
 $id = (int) ($_GET['id'] ?? 0);
  
-$comanda = $pdo->prepare('SELECT * FROM clienti WHERE id = :id');
+$comanda = $pdo->prepare('SELECT * FROM clienti WHERE id = :id AND activ = 1');
 $comanda->execute(['id' => $id]);
 $client = $comanda->fetch();
  

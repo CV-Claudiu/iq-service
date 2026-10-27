@@ -10,7 +10,8 @@ require BASE_PATH . '/config/database.php';
 $config = loadEnv(BASE_PATH . '/.env');
 $pdo    = getConnection($config);
  
-$clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti ORDER BY denumire')->fetchAll();
+//$clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti ORDER BY denumire')->fetchAll();
+$clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti WHERE activ = 1 ORDER BY denumire')->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="ro">
