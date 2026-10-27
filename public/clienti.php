@@ -28,7 +28,10 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti O
     <?php if (isset($_GET['adaugat'])): ?>
         <div class="alert alert-success">Clientul a fost adăugat.</div>
     <?php endif; ?>
- 
+    <?php if (isset($_GET['modificat'])): ?>
+        <div class="alert alert-success">Modificările au fost salvate.</div>
+    <?php endif; ?>
+
     <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
  
     <p class="text-muted">Total clienți: <?php echo count($clienti); ?></p>
@@ -42,6 +45,8 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti O
                 <th>Oraș</th>
                 <th>Telefon</th>
                 <th>E-mail</th>
+                <th>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +57,9 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti O
                     <td><?php echo htmlspecialchars($client['oras']); ?></td>
                     <td><?php echo htmlspecialchars($client['telefon'] ?? ''); ?></td>
                     <td><?php echo htmlspecialchars($client['email'] ?? ''); ?></td>
+                    <td>
+                        <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-sm btn-outline-primary">Modifică</a>
+                    </td>  
                 </tr>
             <?php endforeach; ?>
         </tbody>
