@@ -12,6 +12,13 @@ $pdo    = getConnection($config);
  
 // Ce a scris utilizatorul în căsuța de căutare (gol = toți clienții)
 $cautare = trim($_GET['cautare'] ?? '');
+// Ordonarea: acceptăm doar coloanele din „lista albă”
+$permise = ['denumire', 'oras', 'id'];
+$ordine  = $_GET['ordine'] ?? 'denumire';
+if (!in_array($ordine, $permise)) {
+    $ordine = 'denumire';
+}
+
  
 // Construim comanda SQL bucată cu bucată
 $sql       = 'SELECT id, denumire, oras, telefon, email FROM clienti WHERE activ = 1';
@@ -23,7 +30,8 @@ if ($cautare !== '') {
     $parametri['cautare2'] = '%' . $cautare . '%';
 }
  
-$sql .= ' ORDER BY denumire';
+//$sql .= ' ORDER BY denumire';
+$sql .= ' ORDER BY ' . $ordine . ', denumire';
  
 $comanda = $pdo->prepare($sql);
 $comanda->execute($parametri);
@@ -57,6 +65,7 @@ $clienti = $comanda->fetchAll();
     <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
  
     <form method="get" class="row g-2 mb-3">
+       <input type="hidden" name="ordine" value="<?php echo $ordine; ?>">
         <div class="col-auto">
             <input type="text" name="cautare" class="form-control" placeholder="Caută după denumire sau oraș" value="<?php echo htmlspecialchars($cautare); ?>">
         </div>
@@ -71,9 +80,9 @@ $clienti = $comanda->fetchAll();
     <table class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>
-                <th>#</th>
-                <th>Denumire</th>
-                <th>Oraș</th>
+                <th><a href="clienti.php?ordine=id&cautare=<?php echo urlencode($cautare); ?>" class="text-white">#</a></th>
+                <th><a href="clienti.php?ordine=denumire&cautare=<?php echo urlencode($cautare); ?>" class="text-white">Denumire</a></th>
+                <th><a href="clienti.php?ordine=oras&cautare=<?php echo urlencode($cautare); ?>" class="text-white">Oraș</a></th>
                 <th>Telefon</th>
                 <th>E-mail</th>
                 <th></th>
