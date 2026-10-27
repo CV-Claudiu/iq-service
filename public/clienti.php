@@ -32,6 +32,9 @@ $clienti = $pdo->query('SELECT id, denumire, oras, telefon, email FROM clienti W
     <?php if (isset($_GET['modificat'])): ?>
         <div class="alert alert-success">Modificările au fost salvate.</div>
     <?php endif; ?>
+<?php if (isset($_GET['dezactivat'])): ?>
+        <div class="alert alert-warning">Clientul a fost dezactivat.</div>
+    <?php endif; ?>
 
     <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
  

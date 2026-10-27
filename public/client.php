@@ -52,7 +52,12 @@ if (!$client) {
  
     <a href="clienti.php" class="btn btn-secondary">Înapoi la listă</a>
     <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-primary">Modifică</a>
- 
+    <form action="client_dezactiveaza.php" method="post" class="d-inline"
+           onsubmit="return confirm('Sigur dezactivezi acest client?');">
+        <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
+        <button type="submit" class="btn btn-danger">Dezactivează</button>
+    </form>
+
 </div>
 </body>
 </html>
