@@ -52,17 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+ 
+// Titlul paginii, folosit de antet
+$titlu = 'Adaugă client';
 ?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Adaugă client - IQ SERVICE</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container py-4" style="max-width: 600px;">
+<?php require BASE_PATH . '/app/Views/antet.php'; ?>
+<div style="max-width: 600px;">
  
     <h1>Adaugă client</h1>
  
@@ -97,5 +92,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
  
 </div>
-</body>
-</html>
+ 
+<?php require BASE_PATH . '/app/Views/subsol.php'; ?>
