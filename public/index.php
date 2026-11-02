@@ -34,15 +34,11 @@ try {
         $detaliiEroare = $e->getMessage();
     }
 }
+ 
+// Titlul paginii, folosit de antet
+$titlu = 'Pagina de start';
 ?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo htmlspecialchars($numeAplicatie); ?></title>
-</head>
-<body>
+<?php require BASE_PATH . '/app/Views/antet.php'; ?>
     <h1><?php echo htmlspecialchars($numeAplicatie); ?></h1>
     <p>Aplicație CRM pentru service echipamente de automatizare</p>
  
@@ -55,8 +51,8 @@ try {
             <li>Server: <?php echo htmlspecialchars($infoBaza['versiune']); ?></li>
             <li>Ora serverului de baze de date: <?php echo htmlspecialchars($infoBaza['ora']); ?></li>
             <li>Versiune PHP: <?php echo phpversion(); ?></li>
-            <p><a href="clienti.php">Vizualizare lista clienți</a></p>
         </ul>
+        <p><a href="clienti.php">Vezi lista de clienți</a></p>
     <?php else: ?>
         <p style="color: red;"><strong>Nu ne putem conecta la baza de date.</strong></p>
         <p>Eroarea a fost notată în jurnalul aplicației (storage/logs/app.log).</p>
@@ -65,5 +61,5 @@ try {
                <?php echo htmlspecialchars($detaliiEroare); ?></p>
         <?php endif; ?>
     <?php endif; ?>
-</body>
-</html>
+ 
+<?php require BASE_PATH . '/app/Views/subsol.php'; ?>
