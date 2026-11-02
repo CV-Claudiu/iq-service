@@ -12,13 +12,13 @@ $pdo    = getConnection($config);
  
 // Ce a scris utilizatorul în căsuța de căutare (gol = toți clienții)
 $cautare = trim($_GET['cautare'] ?? '');
+ 
 // Ordonarea: acceptăm doar coloanele din „lista albă”
 $permise = ['denumire', 'oras', 'id'];
 $ordine  = $_GET['ordine'] ?? 'denumire';
 if (!in_array($ordine, $permise)) {
     $ordine = 'denumire';
 }
-
  
 // Construim comanda SQL bucată cu bucată
 $sql       = 'SELECT id, denumire, oras, telefon, email FROM clienti WHERE activ = 1';
@@ -30,23 +30,16 @@ if ($cautare !== '') {
     $parametri['cautare2'] = '%' . $cautare . '%';
 }
  
-//$sql .= ' ORDER BY denumire';
 $sql .= ' ORDER BY ' . $ordine . ', denumire';
  
 $comanda = $pdo->prepare($sql);
 $comanda->execute($parametri);
 $clienti = $comanda->fetchAll();
+ 
+// Titlul paginii, folosit de antet
+$titlu = 'Clienți';
 ?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Clienți - IQ SERVICE</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container py-4">
+<?php require BASE_PATH . '/app/Views/antet.php'; ?>
  
     <h1>Clienți</h1>
  
@@ -65,7 +58,7 @@ $clienti = $comanda->fetchAll();
     <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
  
     <form method="get" class="row g-2 mb-3">
-       <input type="hidden" name="ordine" value="<?php echo $ordine; ?>">
+        <input type="hidden" name="ordine" value="<?php echo $ordine; ?>">
         <div class="col-auto">
             <input type="text" name="cautare" class="form-control" placeholder="Caută după denumire sau oraș" value="<?php echo htmlspecialchars($cautare); ?>">
         </div>
@@ -110,6 +103,5 @@ $clienti = $comanda->fetchAll();
  
     <a href="index.php" class="btn btn-secondary">Înapoi la pagina de start</a>
  
-</div>
-</body>
-</html>
+ 
+<?php require BASE_PATH . '/app/Views/subsol.php'; ?>
