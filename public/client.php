@@ -20,17 +20,12 @@ if (!$client) {
     echo 'Clientul nu există. <a href="clienti.php">Înapoi la listă</a>';
     exit;
 }
+ 
+// Titlul paginii, folosit de antet
+$titlu = $client['denumire'];
 ?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo htmlspecialchars($client['denumire']); ?> - IQ SERVICE</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container py-4" style="max-width: 700px;">
+<?php require BASE_PATH . '/app/Views/antet.php'; ?>
+<div style="max-width: 700px;">
  
     <h1><?php echo htmlspecialchars($client['denumire']); ?></h1>
     <p class="text-muted">Client nr. <?php echo $client['id']; ?>, adăugat la <?php echo $client['creat_la']; ?></p>
@@ -52,12 +47,13 @@ if (!$client) {
  
     <a href="clienti.php" class="btn btn-secondary">Înapoi la listă</a>
     <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-primary">Modifică</a>
+ 
     <form action="client_dezactiveaza.php" method="post" class="d-inline"
-           onsubmit="return confirm('Sigur dezactivezi acest client?');">
+          onsubmit="return confirm('Sigur dezactivezi acest client?');">
         <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
         <button type="submit" class="btn btn-danger">Dezactivează</button>
     </form>
-
+ 
 </div>
-</body>
-</html>
+ 
+<?php require BASE_PATH . '/app/Views/subsol.php'; ?>
