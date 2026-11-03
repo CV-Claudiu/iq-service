@@ -29,12 +29,23 @@ $comanda = $pdo->prepare('SELECT * FROM contacte WHERE client_id = :id ORDER BY 
 $comanda->execute(['id' => $id]);
 $contacte = $comanda->fetchAll();
 
+// Mesajul de confirmare, după adăugarea sau ștergerea unei persoane de contact
+$mesaje = [
+    'adaugat' => 'Persoana de contact a fost adăugată.',
+    'sters'   => 'Persoana de contact a fost ștearsă.',
+];
+ 
+$mesaj = $mesaje[$_GET['contact'] ?? ''] ?? '';
 
 // Titlul paginii, folosit de antet
 $titlu = $client['denumire'];
 ?>
 <?php require BASE_PATH . '/app/Views/antet.php'; ?>
 <div style="max-width: 700px;">
+    <?php if ($mesaj !== ''): ?>
+        <div class="alert alert-success"><?php echo $mesaj; ?></div>
+    <?php endif; ?>
+
  
     <h1><?php echo htmlspecialchars($client['denumire']); ?></h1>
     <p class="text-muted">Client nr. <?php echo $client['id']; ?>, adăugat la <?php echo $client['creat_la']; ?></p>
