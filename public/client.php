@@ -62,7 +62,8 @@ $titlu = $client['denumire'];
         <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
         <button type="submit" class="btn btn-danger">Dezactivează</button>
         <h2 class="h4 mt-5">Persoane de contact (<?php echo count($contacte); ?>)</h2>
- 
+        <a href="contact_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă persoană de contact</a>
+        
         <?php if (count($contacte) === 0): ?>
             <p class="text-muted">Clientul nu are persoane de contact.</p>
         <?php else: ?>
