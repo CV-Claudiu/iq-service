@@ -63,7 +63,7 @@ $titlu = $client['denumire'];
         <button type="submit" class="btn btn-danger">Dezactivează</button>
         <h2 class="h4 mt-5">Persoane de contact (<?php echo count($contacte); ?>)</h2>
         <a href="contact_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă persoană de contact</a>
-        
+
         <?php if (count($contacte) === 0): ?>
             <p class="text-muted">Clientul nu are persoane de contact.</p>
         <?php else: ?>
@@ -74,6 +74,7 @@ $titlu = $client['denumire'];
                         <th>Funcție</th>
                         <th>Telefon</th>
                         <th>E-mail</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +84,13 @@ $titlu = $client['denumire'];
                             <td><?php echo htmlspecialchars($contact['functie'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($contact['telefon'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($contact['email'] ?? ''); ?></td>
+                            <td class="text-end">
+                                <form action="contact_sterge.php" method="post" class="d-inline"
+                                    onsubmit="return confirm('Sigur ștergi această persoană de contact?');">
+                                    <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Șterge</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
