@@ -4,12 +4,15 @@
  
 define('BASE_PATH', dirname(__DIR__));
  
-require BASE_PATH . '/config/env.php';
-require BASE_PATH . '/config/database.php';
+//renuntare ziua 9: am mutat inițializarea în app/init.php
+//require BASE_PATH . '/config/env.php';    
+//require BASE_PATH . '/config/database.php';
  
-$config = loadEnv(BASE_PATH . '/.env');
-$pdo    = getConnection($config);
+//$config = loadEnv(BASE_PATH . '/.env');
+//$pdo    = getConnection($config);
  
+require BASE_PATH . '/app/init.php';    
+
 // 1. Ce client modificăm? Numărul vine din adresă: client_editeaza.php?id=3
 $id = (int) ($_GET['id'] ?? 0);
  
