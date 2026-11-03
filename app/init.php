@@ -1,16 +1,9 @@
 <?php
-// Exemplul 13 - includem cod PHP, nu doar HTML
+// IQ SERVICE - pornirea comună a paginilor (Ziua 9)
+// Încarcă funcțiile de configurare, citește .env și deschide conexiunea la baza de date.
  
-require 'parti/functii.php';
-?>
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <title>Exemplul 13</title>
-</head>
-<body>
-    <p><?php echo salut('Ana'); ?></p>
-    <p><?php echo salut('Mihai'); ?></p>
-</body>
-</html>
+require BASE_PATH . '/config/env.php';
+require BASE_PATH . '/config/database.php';
+ 
+$config = loadEnv(BASE_PATH . '/.env');
+$pdo    = getConnection($config);
