@@ -2,7 +2,13 @@
 // Exemplul 20 - de ce avem nevoie de un nomenclator
 // Aceeași categorie, scrisă de mână de trei oameni diferiți.
  
-$scrisDeMana = ['Centrală termică', 'centrala termica', 'CT', 'Centrală termică', 'Centrala'];
+$scrisDeMana = [
+    'Centrală termică - gaz',
+    'centrala termica - peleti',
+    'CT',
+    'Centrală termică',
+    'Centrala'
+    ];
  
 $numarare = array_count_values($scrisDeMana);
 ?>
@@ -13,7 +19,7 @@ $numarare = array_count_values($scrisDeMana);
     <title>Exemplul 20 - nomenclator</title>
 </head>
 <body>
-    <h1>Câte centrale termice avem?</h1>
+    <h1>Nomenclator - Câte centrale termice avem?</h1>
  
     <ul>
         <?php foreach ($numarare as $text => $cate): ?>
