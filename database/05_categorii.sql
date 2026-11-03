@@ -8,9 +8,9 @@ CREATE TABLE IF NOT EXISTS categorii (
 );
  
 INSERT INTO categorii (denumire) VALUES
-('Centrală termică'),
-('Pompă de căldură'),
-('Panou fotovoltaic'),
+('Centrală termică - gaz'),
+('Pompe de căldură aer-apă'),
+('Panouri solare termice'),
 ('Invertor'),
 ('Tablou electric'),
 ('Automat programabil (PLC)'),
