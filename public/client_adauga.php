@@ -36,6 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($oras === '') {
         $erori[] = 'Orașul este obligatoriu.';
     }
+    if ($email !== '' && !str_contains($email, '@')) {
+        $erori[] = 'E-mailul nu este valid.';
+    }
  
     // 3. Dacă nu sunt erori, salvăm în baza de date
     if (count($erori) === 0) {
