@@ -23,7 +23,13 @@ if (!$client) {
     echo 'Clientul nu există. <a href="clienti.php">Înapoi la listă</a>';
     exit;
 }
- 
+
+// Persoanele de contact ale acestui client
+$comanda = $pdo->prepare('SELECT * FROM contacte WHERE client_id = :id ORDER BY nume');
+$comanda->execute(['id' => $id]);
+$contacte = $comanda->fetchAll();
+
+
 // Titlul paginii, folosit de antet
 $titlu = $client['denumire'];
 ?>
@@ -55,6 +61,33 @@ $titlu = $client['denumire'];
           onsubmit="return confirm('Sigur dezactivezi acest client?');">
         <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
         <button type="submit" class="btn btn-danger">Dezactivează</button>
+        <h2 class="h4 mt-5">Persoane de contact (<?php echo count($contacte); ?>)</h2>
+ 
+        <?php if (count($contacte) === 0): ?>
+            <p class="text-muted">Clientul nu are persoane de contact.</p>
+        <?php else: ?>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Nume</th>
+                        <th>Funcție</th>
+                        <th>Telefon</th>
+                        <th>E-mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($contacte as $contact): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($contact['nume']); ?></td>
+                            <td><?php echo htmlspecialchars($contact['functie'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($contact['telefon'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($contact['email'] ?? ''); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+  
     </form>
  
 </div>
