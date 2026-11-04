@@ -77,6 +77,13 @@ $titlu = 'Categorii';
                 <tr>
                     <td><?php echo $categorie['id']; ?></td>
                     <td><?php echo htmlspecialchars($categorie['denumire']); ?></td>
+                                                <td class="text-end">
+                                <form action="categorie_sterge.php" method="post" class="d-inline"
+                                    onsubmit="return confirm('Sigur ștergi această categorie?');">
+                                    <input type="hidden" name="id" value="<?php echo $categorie['id']; ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Șterge</button>
+                                </form>
+                            </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
