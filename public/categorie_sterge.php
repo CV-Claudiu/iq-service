@@ -7,7 +7,7 @@ define('BASE_PATH', dirname(__DIR__));
 require BASE_PATH . '/app/init.php';
  
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: clienti.php');
+    header('Location: categorii.php');
     exit;
 }
  
@@ -18,7 +18,7 @@ $id = (int) ($_POST['id'] ?? 0);
 //$contact = $comanda->fetch();
  
 if (!$contact) {
-    header('Location: clienti.php');
+    header('Location: categorii.php');
     exit;
 }
  
