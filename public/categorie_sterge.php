@@ -13,11 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
  
 $id = (int) ($_POST['id'] ?? 0);
  
-//$comanda = $pdo->prepare('SELECT id,denumire FROM categorii WHERE id = :id');
-//$comanda->execute(['id' => $id]);
-//$contact = $comanda->fetch();
+$comanda = $pdo->prepare('SELECT id,denumire FROM categorii WHERE id = :id');
+$comanda->execute(['id' => $id]);
+$denumire = $comanda->fetch();
  
-if (!$contact) {
+if (!$denumire) {
     header('Location: categorii.php');
     exit;
 }
@@ -25,6 +25,5 @@ if (!$contact) {
 $comanda = $pdo->prepare('DELETE FROM categorii WHERE id = :id');
 $comanda->execute(['id' => $id]);
  
-header('Location: categorii.php?id=' . $contact['id'] . '&contact=sters');
-
+header('Location: categorii.php?id=' . $denumire['id'] . '&denumire=sters');
 exit;
