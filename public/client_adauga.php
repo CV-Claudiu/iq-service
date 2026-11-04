@@ -12,7 +12,8 @@ define('BASE_PATH', dirname(__DIR__));
 //$pdo    = getConnection($config);
  
 require BASE_PATH . '/app/init.php';
- 
+//test
+
 // Valorile din formular (goale la prima deschidere a paginii)
 $denumire = '';
 $oras     = '';
