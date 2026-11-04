@@ -69,6 +69,7 @@ $titlu = 'Categorii';
             <tr>
                 <th style="width: 15%;">#</th>
                 <th>Denumire</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
