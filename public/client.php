@@ -29,6 +29,14 @@ $comanda = $pdo->prepare('SELECT * FROM contacte WHERE client_id = :id ORDER BY 
 $comanda->execute(['id' => $id]);
 $contacte = $comanda->fetchAll();
 
+// Echipamentele acestui client, fiecare cu numele categoriei
+$comanda = $pdo->prepare('SELECT echipamente.*, categorii.denumire AS categorie
+                          FROM echipamente
+                          JOIN categorii ON categorii.id = echipamente.categorie_id
+                          WHERE echipamente.client_id = :id
+                          ORDER BY echipamente.denumire');
+$comanda->execute(['id' => $id]);
+$echipamente = $comanda->fetchAll();
 
 
 // Mesajul de confirmare, după adăugarea sau ștergerea unei persoane de contact
@@ -75,7 +83,34 @@ $titlu = $client['denumire'];
         <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
         <button type="submit" class="btn btn-danger">Dezactivează</button>
 
-     
+    <h2 class="h4 mt-5">Echipamente (<?php echo count($echipamente); ?>)</h2>
+ 
+    <?php if (count($echipamente) === 0): ?>
+        <p class="text-muted">Clientul nu are echipamente înregistrate.</p>
+    <?php else: ?>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Echipament</th>
+                    <th>Categorie</th>
+                    <th>Serie</th>
+                    <th>Instalat la</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($echipamente as $echipament): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($echipament['denumire']); ?></td>
+                        <td><?php echo htmlspecialchars($echipament['categorie']); ?></td>
+                        <td><?php echo htmlspecialchars($echipament['serie'] ?? ''); ?></td>
+                        <td><?php echo $echipament['data_instalare'] ? date('d.m.Y', strtotime($echipament['data_instalare'])) : '-'; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+
+        
         <h2 class="h4 mt-5">Persoane de contact (<?php echo count($contacte); ?>)</h2>
         <a href="contact_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă persoană de contact</a>
 
