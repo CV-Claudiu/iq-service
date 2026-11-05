@@ -1,26 +1,34 @@
-    <h2 class="h4 mt-5">Echipamente (<?php echo count($echipamente); ?>)</h2>
+<?php
+// Exemplul 24 - o listă derulantă construită din PHP
+// Alegerea rămâne bifată și după ce apăsăm Trimite.
  
-    <?php if (count($echipamente) === 0): ?>
-        <p class="text-muted">Clientul nu are echipamente înregistrate.</p>
-    <?php else: ?>
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th>Echipament</th>
-                    <th>Categorie</th>
-                    <th>Serie</th>
-                    <th>Instalat la</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($echipamente as $echipament): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($echipament['denumire']); ?></td>
-                        <td><?php echo htmlspecialchars($echipament['categorie']); ?></td>
-                        <td><?php echo htmlspecialchars($echipament['serie'] ?? ''); ?></td>
-                        <td><?php echo $echipament['data_instalare'] ? date('d.m.Y', strtotime($echipament['data_instalare'])) : '-'; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+$prioritati = [
+    1 => 'Mică',
+    2 => 'Normală',
+    3 => 'Urgentă',
+];
+ 
+$aleasa = (int) ($_POST['prioritate'] ?? 0);
+?>
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Exemplul 24 - listă derulantă</title>
+</head>
+<body>
+    <form method="post">
+        <select name="prioritate">
+            <option value="">- alege -</option>
+            <?php foreach ($prioritati as $numar => $text): ?>
+                <option value="<?php echo $numar; ?>" <?php echo $numar === $aleasa ? 'selected' : ''; ?>><?php echo $text; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Trimite</button>
+    </form>
+ 
+    <?php if (isset($prioritati[$aleasa])): ?>
+        <p>Ai ales: <?php echo $prioritati[$aleasa]; ?> (numărul <?php echo $aleasa; ?>)</p>
     <?php endif; ?>
+</body>
+</html>
