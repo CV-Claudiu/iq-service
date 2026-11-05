@@ -34,7 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
  
 $categorii = $pdo->query('SELECT id, denumire FROM categorii ORDER BY denumire')->fetchAll();
+// Mesajul de confirmare, după adăugarea sau ștergerea unei persoane de contact
+
+$mesaje = [
+    'adaugat' => 'Categoria a fost adăugată.1',
+    'sters'   => 'Categoria a fost ștearsă.1',
+];
  
+$mesaj = $mesaje[$_GET['denumire'] ?? ''] ?? '';
+
 // Titlul paginii, folosit de antet
 $titlu = 'Categorii';
 ?>
@@ -42,9 +50,16 @@ $titlu = 'Categorii';
 <div style="max-width: 600px;">
  
     <h1>Categorii de echipamente</h1>
- 
+    <?php if ($mesaj !== ''): ?>
+        <div class="alert alert-success"><?php echo $mesaj; ?></div>
+    <?php endif; ?>
+
     <?php if (isset($_GET['adaugat'])): ?>
-        <div class="alert alert-success">Categoria a fost adăugată.</div>
+       <div class="alert alert-success">Categoria a fost adăugată.2</div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['sters'])): ?>
+        <div class="alert alert-success">Categoria a fost ștearsă.2</div>
     <?php endif; ?>
  
     <?php if (count($erori) > 0): ?>
