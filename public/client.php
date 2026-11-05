@@ -47,6 +47,11 @@ $mesaje = [
  
 $mesaj = $mesaje[$_GET['contact'] ?? ''] ?? '';
 
+if (($_GET['echipament'] ?? '') === 'adaugat') {
+    $mesaj = 'Echipamentul a fost adăugat.';
+}
+
+
 // Titlul paginii, folosit de antet
 $titlu = $client['denumire'];
 ?>
@@ -84,6 +89,8 @@ $titlu = $client['denumire'];
         <button type="submit" class="btn btn-danger">Dezactivează</button>
 
     <h2 class="h4 mt-5">Echipamente (<?php echo count($echipamente); ?>)</h2>
+
+    <a href="echipament_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă echipament</a>
  
     <?php if (count($echipamente) === 0): ?>
         <p class="text-muted">Clientul nu are echipamente înregistrate.</p>
