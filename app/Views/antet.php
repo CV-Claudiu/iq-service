@@ -24,6 +24,7 @@ $titlu = isset($titlu) ? $titlu . ' - IQ SERVICE' : 'IQ SERVICE';
             <a class="nav-link" href="echipamente.php">Echipamente</a>
             <a class="nav-link" href="categorii.php">Categorii</a>
             <a class="nav-link" href="servicii.php">Servicii</a>
+            <a class="nav-link" href="utilizatori.php">Utilizatori</a>
             <a class="nav-link" href="client_adauga.php">Adaugă client</a>
         </div>
     </div>
