@@ -1,65 +1,50 @@
 <?php
-// IQ SERVICE - pagina de start (Ziua 3)
-// Citește configurația din .env, se conectează la baza de date
-// și afișează rezultatul verificării.
+// IQ SERVICE - pagina de start (Ziua 3, refăcută în Ziua 15)
+// Pagina de bun venit: câteva numere despre ce avem în aplicație.
  
-date_default_timezone_set('Europe/Bucharest');
- 
-// Rădăcina proiectului: folderul de deasupra lui public/
 define('BASE_PATH', dirname(__DIR__));
  
-require BASE_PATH . '/config/env.php';
-require BASE_PATH . '/config/database.php';
+require BASE_PATH . '/app/init.php';
  
-$config        = [];
-$numeAplicatie = 'IQ SERVICE';
-$conectat      = false;
-$infoBaza      = [];
-$detaliiEroare = '';
+$numarClienti     = $pdo->query('SELECT COUNT(*) FROM clienti WHERE activ = 1')->fetchColumn();
+$numarEchipamente = $pdo->query('SELECT COUNT(*) FROM echipamente JOIN clienti ON clienti.id = echipamente.client_id WHERE clienti.activ = 1')->fetchColumn();
+$numarContacte    = $pdo->query('SELECT COUNT(*) FROM contacte JOIN clienti ON clienti.id = contacte.client_id WHERE clienti.activ = 1')->fetchColumn();
  
-try {
-    $config        = loadEnv(BASE_PATH . '/.env');
-    $numeAplicatie = $config['APP_NAME'] ?? $numeAplicatie;
- 
-    $pdo      = getConnection($config);
-    $infoBaza = $pdo->query('SELECT DATABASE() AS baza, VERSION() AS versiune, NOW() AS ora')->fetch();
-    $conectat = true;
-} catch (Throwable $e) {
-    // 1. Notăm eroarea completă în jurnalul aplicației (pentru programator)
-    $mesajLog = date('Y-m-d H:i:s') . ' | ' . $e->getMessage() . PHP_EOL;
-    error_log($mesajLog, 3, BASE_PATH . '/storage/logs/app.log');
- 
-    // 2. Detaliile tehnice apar pe ecran doar în modul de depanare
-    if (($config['APP_DEBUG'] ?? 'false') === 'true') {
-        $detaliiEroare = $e->getMessage();
-    }
-}
+$numeUtilizator = $_SESSION['utilizator']['nume'] ?? '';
  
 // Titlul paginii, folosit de antet
 $titlu = 'Pagina de start';
 ?>
 <?php require BASE_PATH . '/app/Views/antet.php'; ?>
-    <h1><?php echo htmlspecialchars($numeAplicatie); ?></h1>
-    <p>Aplicație CRM pentru service echipamente de automatizare</p>
  
-    <h2>Verificarea conexiunii la baza de date</h2>
+    <h1>Bun venit<?php echo $numeUtilizator !== '' ? ', ' . htmlspecialchars($numeUtilizator) : ''; ?>!</h1>
+    <p class="text-muted">IQ SERVICE - aplicație CRM pentru service echipamente de automatizare</p>
  
-    <?php if ($conectat): ?>
-        <p style="color: green;"><strong>Conexiunea la baza de date funcționează.</strong></p>
-        <ul>
-            <li>Baza de date: <?php echo htmlspecialchars($infoBaza['baza']); ?></li>
-            <li>Server: <?php echo htmlspecialchars($infoBaza['versiune']); ?></li>
-            <li>Ora serverului de baze de date: <?php echo htmlspecialchars($infoBaza['ora']); ?></li>
-            <li>Versiune PHP: <?php echo phpversion(); ?></li>
-        </ul>
-        <p><a href="clienti.php">Vezi lista de clienți</a></p>
-    <?php else: ?>
-        <p style="color: red;"><strong>Nu ne putem conecta la baza de date.</strong></p>
-        <p>Eroarea a fost notată în jurnalul aplicației (storage/logs/app.log).</p>
-        <?php if ($detaliiEroare !== ''): ?>
-            <p><em>Detalii (vizibile doar cu APP_DEBUG=true):</em>
-               <?php echo htmlspecialchars($detaliiEroare); ?></p>
-        <?php endif; ?>
-    <?php endif; ?>
+    <div class="row g-3 mt-2">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="display-6"><?php echo $numarClienti; ?></div>
+                    <a href="clienti.php">clienți activi</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="display-6"><?php echo $numarEchipamente; ?></div>
+                    <a href="echipamente.php">echipamente</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <div class="display-6"><?php echo $numarContacte; ?></div>
+                    <a href="contacte.php">persoane de contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
  
 <?php require BASE_PATH . '/app/Views/subsol.php'; ?>
