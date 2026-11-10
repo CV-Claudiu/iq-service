@@ -27,6 +27,14 @@ $titlu = isset($titlu) ? $titlu . ' - IQ SERVICE' : 'IQ SERVICE';
             <a class="nav-link" href="utilizatori.php">Utilizatori</a>
             <a class="nav-link" href="client_adauga.php">Adaugă client</a>
         </div>
+         <div class="navbar-nav ms-auto">
+            <?php if (isset($_SESSION['utilizator'])): ?>
+                <span class="navbar-text me-3"><?php echo htmlspecialchars($_SESSION['utilizator']['nume']); ?> (<?php echo $_SESSION['utilizator']['rol']; ?>)</span>
+                <a class="nav-link" href="logout.php">Ieșire</a>
+            <?php else: ?>
+                <a class="nav-link" href="login.php">Intră în cont</a>
+            <?php endif; ?>
+        </div>
     </div>
 </nav>
  
