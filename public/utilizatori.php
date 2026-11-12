@@ -4,6 +4,8 @@
 define('BASE_PATH', dirname(__DIR__));
  
 require BASE_PATH . '/app/init.php';
+
+cereRol(['administrator']);
  
 $utilizatori = $pdo->query('SELECT id, nume, email, rol, activ FROM utilizatori ORDER BY nume')->fetchAll();
  

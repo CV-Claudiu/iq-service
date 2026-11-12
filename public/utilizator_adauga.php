@@ -4,6 +4,8 @@
 define('BASE_PATH', dirname(__DIR__));
  
 require BASE_PATH . '/app/init.php';
+
+cereRol(['administrator']);
  
 $roluri = [
     'administrator' => 'Administrator',
