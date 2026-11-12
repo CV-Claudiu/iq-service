@@ -9,7 +9,7 @@ require BASE_PATH . '/app/init.php';
 $denumire = '';
 $erori    = [];
  
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && areRol(['administrator'])) {
  
     $denumire = trim($_POST['denumire'] ?? '');
  
