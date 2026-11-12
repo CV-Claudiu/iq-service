@@ -81,16 +81,24 @@ $titlu = $client['denumire'];
     </table>
  
     <a href="clienti.php" class="btn btn-secondary">Înapoi la listă</a>
-    <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-primary">Modifică</a>
+    
+    <?php if (areRol(['administrator', 'operator'])): ?>
+        <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-primary">Modifică</a>
  
-    <form action="client_dezactiveaza.php" method="post" class="d-inline"
-          onsubmit="return confirm('Sigur dezactivezi acest client?');">
-        <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
-        <button type="submit" class="btn btn-danger">Dezactivează</button>
+        <form action="client_dezactiveaza.php" method="post" class="d-inline"
+              onsubmit="return confirm('Sigur dezactivezi acest client?');">
+            <input type="hidden" name="id" value="<?php echo $client['id']; ?>">
+            <button type="submit" class="btn btn-danger">Dezactivează</button>
+        </form>
+    <?php endif; ?>
+
 
     <h2 class="h4 mt-5">Echipamente (<?php echo count($echipamente); ?>)</h2>
 
-    <a href="echipament_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă echipament</a>
+    <?php if (areRol(['administrator', 'operator'])): ?>
+        <a href="echipament_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă echipament</a>
+    <?php endif; ?>
+
  
     <?php if (count($echipamente) === 0): ?>
         <p class="text-muted">Clientul nu are echipamente înregistrate.</p>
@@ -119,7 +127,10 @@ $titlu = $client['denumire'];
 
         
         <h2 class="h4 mt-5">Persoane de contact (<?php echo count($contacte); ?>)</h2>
-        <a href="contact_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă persoană de contact</a>
+        <?php if (areRol(['administrator', 'operator'])): ?>
+            <a href="contact_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-sm btn-success mb-3">Adaugă persoană de contact</a>
+        <?php endif; ?>
+
 
         <?php if (count($contacte) === 0): ?>
             <p class="text-muted">Clientul nu are persoane de contact.</p>
@@ -142,11 +153,13 @@ $titlu = $client['denumire'];
                             <td><?php echo htmlspecialchars($contact['telefon'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($contact['email'] ?? ''); ?></td>
                             <td class="text-end">
-                                <form action="contact_sterge.php" method="post" class="d-inline"
-                                    onsubmit="return confirm('Sigur ștergi această persoană de contact?');">
-                                    <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Șterge</button>
-                                </form>
+                                <?php if (areRol(['administrator', 'operator'])): ?>
+                                    <form action="contact_sterge.php" method="post" class="d-inline"
+                                          onsubmit="return confirm('Sigur ștergi această persoană de contact?');">
+                                        <input type="hidden" name="id" value="<?php echo $contact['id']; ?>">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Șterge</button>
+                                    </form>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

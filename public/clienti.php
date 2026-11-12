@@ -58,7 +58,10 @@ $titlu = 'Clienți';
         <div class="alert alert-warning">Clientul a fost dezactivat.</div>
     <?php endif; ?>
  
-    <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
+    <?php if (areRol(['administrator', 'operator'])): ?>
+        <a href="client_adauga.php" class="btn btn-primary mb-3">+ Adaugă client</a>
+    <?php endif; ?>
+
  
     <form method="get" class="row g-2 mb-3">
         <input type="hidden" name="ordine" value="<?php echo $ordine; ?>">
@@ -93,7 +96,9 @@ $titlu = 'Clienți';
                     <td><?php echo htmlspecialchars($client['telefon'] ?? ''); ?></td>
                     <td><?php echo htmlspecialchars($client['email'] ?? ''); ?></td>
                     <td>
-                        <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-sm btn-outline-primary">Modifică</a>
+                        <?php if (areRol(['administrator', 'operator'])): ?>
+                            <a href="client_editeaza.php?id=<?php echo $client['id']; ?>" class="btn btn-sm btn-outline-primary">Modifică</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

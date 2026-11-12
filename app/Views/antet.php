@@ -27,7 +27,9 @@ $titlu = isset($titlu) ? $titlu . ' - IQ SERVICE' : 'IQ SERVICE';
             <?php if (areRol(['administrator'])): ?>
                 <a class="nav-link" href="utilizatori.php">Utilizatori</a>
             <?php endif; ?>
-            <a class="nav-link" href="client_adauga.php">Adaugă client</a>
+            <?php if (areRol(['administrator', 'operator'])): ?>
+                <a class="nav-link" href="client_adauga.php">Adaugă client</a>
+            <?php endif; ?>
         </div>
          <div class="navbar-nav ms-auto">
             <?php if (isset($_SESSION['utilizator'])): ?>
