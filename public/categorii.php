@@ -70,14 +70,17 @@ $titlu = 'Categorii';
         </div>
     <?php endif; ?>
  
-    <form method="post" class="row g-2 mb-4">
-        <div class="col">
-            <input type="text" name="denumire" class="form-control" placeholder="Categorie nouă" value="<?php echo htmlspecialchars($denumire); ?>">
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Adaugă</button>
-        </div>
-    </form>
+    <?php if (areRol(['administrator'])): ?>
+        <form method="post" class="row g-2 mb-4">
+            <div class="col">
+                <input type="text" name="denumire" class="form-control" placeholder="Categorie nouă" value="<?php echo htmlspecialchars($denumire); ?>">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Adaugă</button>
+            </div>
+        </form>
+    <?php endif; ?>
+
  
     <table class="table table-striped">
         <thead class="table-dark">
