@@ -12,6 +12,8 @@ define('BASE_PATH', dirname(__DIR__));
 //$pdo    = getConnection($config);
  
 require BASE_PATH . '/app/init.php';
+
+cereRol(['administrator', 'operator']);
  
 // Acceptăm doar cereri trimise din formular (POST), nu un simplu link
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -11,7 +11,9 @@ define('BASE_PATH', dirname(__DIR__));
 //$config = loadEnv(BASE_PATH . '/.env');
 //$pdo    = getConnection($config);
  
-require BASE_PATH . '/app/init.php';    
+require BASE_PATH . '/app/init.php';   
+ 
+cereRol(['administrator', 'operator']);
 
 // 1. Ce client modificăm? Numărul vine din adresă: client_editeaza.php?id=3
 $id = (int) ($_GET['id'] ?? 0);
