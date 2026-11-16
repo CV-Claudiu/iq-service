@@ -92,6 +92,9 @@ $titlu = $client['denumire'];
         </form>
     <?php endif; ?>
 
+    <?php if (areRol(['administrator', 'operator'])): ?>
+        <a href="solicitare_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-warning">Solicitare nouă</a>
+    <?php endif; ?>
 
     <h2 class="h4 mt-5">Echipamente (<?php echo count($echipamente); ?>)</h2>
 
