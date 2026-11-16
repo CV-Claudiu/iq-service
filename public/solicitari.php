@@ -62,3 +62,4 @@ $titlu = 'Solicitări';
     </table>
  
 <?php require BASE_PATH . '/app/Views/subsol.php'; ?>
+

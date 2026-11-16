@@ -135,4 +135,3 @@ $titlu = 'Solicitare nouă';
 </div>
  
 <?php require BASE_PATH . '/app/Views/subsol.php'; ?>
-

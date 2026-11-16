@@ -33,3 +33,4 @@ function cereRol($roluri)
         exit;
     }
 }
+
