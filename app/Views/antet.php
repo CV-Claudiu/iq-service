@@ -19,12 +19,13 @@ $titlu = isset($titlu) ? $titlu . ' - IQ SERVICE' : 'IQ SERVICE';
         <a class="navbar-brand" href="index.php">IQ SERVICE</a>
         <div class="navbar-nav">
             <a class="nav-link" href="index.php">Acasă</a>
+            <a class="nav-link" href="solicitari.php">Solicitări</a> 
             <a class="nav-link" href="clienti.php">Clienți</a>
             <a class="nav-link" href="contacte.php">Contacte</a>
             <a class="nav-link" href="echipamente.php">Echipamente</a>
             <a class="nav-link" href="categorii.php">Categorii</a>
             <a class="nav-link" href="servicii.php">Servicii</a>
-            <a class="nav-link" href="solicitari.php">Solicitări</a>
+           
             <?php if (areRol(['administrator'])): ?>
                 <a class="nav-link" href="utilizatori.php">Utilizatori</a>
             <?php endif; ?>
