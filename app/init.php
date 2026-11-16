@@ -6,6 +6,7 @@ session_start();
 
 require BASE_PATH . '/config/env.php';
 require BASE_PATH . '/config/database.php';
+require BASE_PATH . '/app/liste.php';
  
 $config = loadEnv(BASE_PATH . '/.env');
 $pdo    = getConnection($config);
