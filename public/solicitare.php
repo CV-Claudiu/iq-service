@@ -76,6 +76,29 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
         <?php echo nl2br(htmlspecialchars($solicitare['descriere'] ?? '')); ?>
     </div>
  
+    <?php if (areRol(['administrator', 'operator'])): ?>
+    
+        <h2 class="h5 mt-4">Schimbă statusul</h2>
+        <form action="solicitare_status.php" method="post" class="border rounded p-3">
+            <input type="hidden" name="id" value="<?php echo $solicitare['id']; ?>">
+            <div class="row g-2">
+                <div class="col-md-4">
+                    <select name="status" class="form-select">
+                        <?php foreach ($statusuri as $cheie => $text): ?>
+                            <option value="<?php echo $cheie; ?>" <?php echo $cheie === $solicitare['status'] ? 'selected' : ''; ?>><?php echo $text; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-8">
+                    <input type="text" name="nota" class="form-control" placeholder="Notă: ce s-a făcut, ce urmează">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Salvează</button>
+        </form>
+    
+    <?php endif; ?>
+
+
     <p class="mt-3"><a href="solicitari.php" class="btn btn-secondary">Înapoi la listă</a></p>
  
 </div>
