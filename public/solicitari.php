@@ -51,7 +51,7 @@ $titlu = 'Solicitări';
                     <td><?php echo $solicitare['id']; ?></td>
                     <td><?php echo date('d.m.Y H:i', strtotime($solicitare['creat_la'])); ?></td>
                     <td><a href="client.php?id=<?php echo $solicitare['client_id']; ?>"><?php echo htmlspecialchars($solicitare['client']); ?></a></td>
-                    <td><?php echo htmlspecialchars($solicitare['titlu']); ?></td>
+                    <td><a href="solicitare.php?id=<?php echo $solicitare['id']; ?>"><?php echo htmlspecialchars($solicitare['titlu']); ?></a></td>
                     <td><?php echo htmlspecialchars($solicitare['echipament'] ?? '-'); ?></td>
                     <td><span class="badge text-bg-<?php echo $culoriPrioritate[$solicitare['prioritate']]; ?>"><?php echo $prioritati[$solicitare['prioritate']]; ?></span></td>
                     <td><span class="badge text-bg-<?php echo $culoriStatus[$solicitare['status']]; ?>"><?php echo $statusuri[$solicitare['status']]; ?></span></td>
