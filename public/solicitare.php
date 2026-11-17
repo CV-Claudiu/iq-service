@@ -30,7 +30,17 @@ if (!$solicitare) {
     echo 'Solicitarea nu există. <a href="solicitari.php">Înapoi la listă</a>';
     exit;
 }
- 
+
+// Istoricul solicitării, cel mai nou primul
+$comanda = $pdo->prepare('SELECT solicitari_istoric.*, utilizatori.nume AS utilizator
+                          FROM solicitari_istoric
+                          JOIN utilizatori ON utilizatori.id = solicitari_istoric.utilizator_id
+                          WHERE solicitari_istoric.solicitare_id = :id
+                          ORDER BY solicitari_istoric.creat_la DESC, solicitari_istoric.id DESC');
+$comanda->execute(['id' => $id]);
+$istoric = $comanda->fetchAll();
+
+
 // Titlul paginii, folosit de antet
 $titlu = 'Solicitarea nr. ' . $solicitare['id'];
 ?>
@@ -98,7 +108,27 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
     
     <?php endif; ?>
 
-
+        <h2 class="h5 mt-4">Istoric (<?php echo count($istoric); ?>)</h2>
+ 
+    <?php if (count($istoric) === 0): ?>
+        <p class="text-muted">Nicio schimbare încă.</p>
+    <?php else: ?>
+        <ul class="list-group">
+            <?php foreach ($istoric as $rand): ?>
+                <li class="list-group-item">
+                    <div class="small text-muted"><?php echo date('d.m.Y H:i', strtotime($rand['creat_la'])); ?>, <?php echo htmlspecialchars($rand['utilizator']); ?></div>
+                    <?php if ($rand['status_vechi'] !== $rand['status_nou']): ?>
+                        <div><?php echo $statusuri[$rand['status_vechi']]; ?> → <strong><?php echo $statusuri[$rand['status_nou']]; ?></strong></div>
+                    <?php endif; ?>
+                    <?php if ($rand['nota'] !== null): ?>
+                        <div><?php echo nl2br(htmlspecialchars($rand['nota'])); ?></div>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+ 
+    
     <p class="mt-3"><a href="solicitari.php" class="btn btn-secondary">Înapoi la listă</a></p>
  
 </div>
