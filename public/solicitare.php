@@ -36,7 +36,11 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
 ?>
 <?php require BASE_PATH . '/app/Views/antet.php'; ?>
 <div style="max-width: 800px;">
- 
+    
+    <?php if (isset($_GET['actualizat'])): ?>
+        <div class="alert alert-success">Solicitarea a fost actualizată.</div>
+    <?php endif; ?>
+
     <h1>Solicitarea nr. <?php echo $solicitare['id']; ?>: <?php echo htmlspecialchars($solicitare['titlu']); ?></h1>
  
     <p>
