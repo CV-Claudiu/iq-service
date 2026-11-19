@@ -34,7 +34,7 @@ $titlu = 'Solicitări';
 ?>
 <?php require BASE_PATH . '/app/Views/antet.php'; ?>
  
-    <h1>Solicitări de service</h1>
+    <h1><?php echo areRol(['agent']) ? 'Solicitările mele' : 'Solicitări de service'; ?></h1>
  
     <?php if (isset($_GET['adaugat'])): ?>
         <div class="alert alert-success">Solicitarea a fost înregistrată.</div>

@@ -31,6 +31,15 @@ if (!$solicitare) {
     exit;
 }
 
+$esteAlMeu = (int) $solicitare['agent_id'] === (int) $_SESSION['utilizator']['id'];
+ 
+if (areRol(['agent']) && !$esteAlMeu) {
+    http_response_code(403);
+    echo 'Nu ai acces la această solicitare. <a href="solicitari.php">Înapoi la listă</a>';
+    exit;
+}
+
+
 // Tehnicienii activi, pentru alocare
 $agenti = $pdo->query("SELECT id, nume FROM utilizatori WHERE rol = 'agent' AND activ = 1 ORDER BY nume")->fetchAll(PDO::FETCH_KEY_PAIR);
 
@@ -111,8 +120,7 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
     <?php endif; ?>
 
 
-    <?php if (areRol(['administrator', 'operator'])): ?>
-    
+    <?php if (areRol(['administrator', 'operator']) || $esteAlMeu): ?>
         <h2 class="h5 mt-4">Schimbă statusul</h2>
         <form action="solicitare_status.php" method="post" class="border rounded p-3">
             <input type="hidden" name="id" value="<?php echo $solicitare['id']; ?>">
@@ -120,6 +128,7 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
                 <div class="col-md-4">
                     <select name="status" class="form-select">
                         <?php foreach ($statusuri as $cheie => $text): ?>
+                            <?php if (areRol(['agent']) && !in_array($cheie, $statusuriAgent) && $cheie !== $solicitare['status']) { continue; } ?>
                             <option value="<?php echo $cheie; ?>" <?php echo $cheie === $solicitare['status'] ? 'selected' : ''; ?>><?php echo $text; ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -130,8 +139,8 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
             </div>
             <button type="submit" class="btn btn-primary mt-2">Salvează</button>
         </form>
-    
     <?php endif; ?>
+   
 
         <h2 class="h5 mt-4">Istoric (<?php echo count($istoric); ?>)</h2>
  
