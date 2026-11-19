@@ -15,10 +15,20 @@ $sql = 'SELECT solicitari.id, solicitari.titlu, solicitari.prioritate, solicitar
         JOIN clienti          ON clienti.id     = solicitari.client_id
         LEFT JOIN echipamente ON echipamente.id = solicitari.echipament_id
         LEFT JOIN utilizatori ON utilizatori.id = solicitari.agent_id
-        WHERE clienti.activ = 1
-        ORDER BY solicitari.creat_la DESC';
+        WHERE clienti.activ = 1';
+$parametri = [];
  
-$solicitari = $pdo->query($sql)->fetchAll();
+if (areRol(['agent'])) {
+    $sql .= ' AND solicitari.agent_id = :eu';
+    $parametri['eu'] = $_SESSION['utilizator']['id'];
+}
+ 
+$sql .= ' ORDER BY solicitari.creat_la DESC';
+ 
+$comanda = $pdo->prepare($sql);
+$comanda->execute($parametri);
+$solicitari = $comanda->fetchAll();
+
  
 $titlu = 'Solicitări';
 ?>
