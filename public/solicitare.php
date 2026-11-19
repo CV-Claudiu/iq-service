@@ -31,6 +31,10 @@ if (!$solicitare) {
     exit;
 }
 
+// Tehnicienii activi, pentru alocare
+$agenti = $pdo->query("SELECT id, nume FROM utilizatori WHERE rol = 'agent' AND activ = 1 ORDER BY nume")->fetchAll(PDO::FETCH_KEY_PAIR);
+
+
 // Istoricul solicitării, cel mai nou primul
 $comanda = $pdo->prepare('SELECT solicitari_istoric.*, utilizatori.nume AS utilizator
                           FROM solicitari_istoric
@@ -86,6 +90,27 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
         <?php echo nl2br(htmlspecialchars($solicitare['descriere'] ?? '')); ?>
     </div>
  
+    <?php if (areRol(['administrator', 'operator'])): ?>
+        <h2 class="h5 mt-4">Tehnician</h2>
+        <form action="solicitare_aloca.php" method="post" class="border rounded p-3">
+            <input type="hidden" name="id" value="<?php echo $solicitare['id']; ?>">
+            <div class="row g-2">
+                <div class="col-md-8">
+                    <select name="agent_id" class="form-select">
+                        <option value="">- nealocată -</option>
+                        <?php foreach ($agenti as $agentId => $nume): ?>
+                            <option value="<?php echo $agentId; ?>" <?php echo $agentId === (int) $solicitare['agent_id'] ? 'selected' : ''; ?>><?php echo htmlspecialchars($nume); ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100">Alocă</button>
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
+
+
     <?php if (areRol(['administrator', 'operator'])): ?>
     
         <h2 class="h5 mt-4">Schimbă statusul</h2>
