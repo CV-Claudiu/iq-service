@@ -98,7 +98,14 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
     <div class="border rounded p-3 bg-light">
         <?php echo nl2br(htmlspecialchars($solicitare['descriere'] ?? '')); ?>
     </div>
- 
+    
+    <?php if (areRol(['administrator', 'operator']) || $esteAlMeu): ?>
+        <p class="mt-3">
+            <a href="activitate_adauga.php?client_id=<?php echo $solicitare['client_id']; ?>&solicitare_id=<?php echo $solicitare['id']; ?>" class="btn btn-outline-primary">Activitate nouă</a>
+        </p>
+    <?php endif; ?>
+
+   
     <?php if (areRol(['administrator', 'operator'])): ?>
         <h2 class="h5 mt-4">Tehnician</h2>
         <form action="solicitare_aloca.php" method="post" class="border rounded p-3">
