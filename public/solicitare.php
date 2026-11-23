@@ -43,6 +43,15 @@ if (areRol(['agent']) && !$esteAlMeu) {
 // Tehnicienii activi, pentru alocare
 $agenti = $pdo->query("SELECT id, nume FROM utilizatori WHERE rol = 'agent' AND activ = 1 ORDER BY nume")->fetchAll(PDO::FETCH_KEY_PAIR);
 
+// Activitățile acestei solicitări, cea mai nouă prima
+$comanda = $pdo->prepare('SELECT activitati.*, utilizatori.nume AS utilizator
+                          FROM activitati
+                          JOIN utilizatori ON utilizatori.id = activitati.utilizator_id
+                          WHERE activitati.solicitare_id = :id
+                          ORDER BY activitati.data_activitate DESC');
+$comanda->execute(['id' => $id]);
+$activitati = $comanda->fetchAll();
+
 
 // Istoricul solicitării, cel mai nou primul
 $comanda = $pdo->prepare('SELECT solicitari_istoric.*, utilizatori.nume AS utilizator
@@ -148,8 +157,28 @@ $titlu = 'Solicitarea nr. ' . $solicitare['id'];
         </form>
     <?php endif; ?>
    
+    <h2 class="h5 mt-4">Activități (<?php echo count($activitati); ?>)</h2>
+ 
+    <?php if (count($activitati) === 0): ?>
+        <p class="text-muted">Nicio activitate încă.</p>
+    <?php else: ?>
+        <ul class="list-group">
+            <?php foreach ($activitati as $activitate): ?>
+                <li class="list-group-item">
+                    <div class="small text-muted">
+                        <?php echo date('d.m.Y H:i', strtotime($activitate['data_activitate'])); ?>,
+                        <?php echo htmlspecialchars($activitate['utilizator']); ?>,
+                        <?php echo $tipuriActivitate[$activitate['tip']]; ?>
+                        <?php echo durata($activitate['durata_minute']); ?>
+                    </div>
+                    <div><?php echo nl2br(htmlspecialchars($activitate['descriere'])); ?></div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
 
-        <h2 class="h5 mt-4">Istoric (<?php echo count($istoric); ?>)</h2>
+
+    <h2 class="h5 mt-4">Istoric (<?php echo count($istoric); ?>)</h2>
  
     <?php if (count($istoric) === 0): ?>
         <p class="text-muted">Nicio schimbare încă.</p>

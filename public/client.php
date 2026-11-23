@@ -55,6 +55,15 @@ if (($_GET['activitate'] ?? '') === 'adaugata') {
     $mesaj = 'Activitatea a fost adăugată.';
 }
 
+// Activitățile clientului, cea mai nouă prima
+$comanda = $pdo->prepare('SELECT activitati.*, utilizatori.nume AS utilizator
+                          FROM activitati
+                          JOIN utilizatori ON utilizatori.id = activitati.utilizator_id
+                          WHERE activitati.client_id = :id
+                          ORDER BY activitati.data_activitate DESC');
+$comanda->execute(['id' => $id]);
+$activitati = $comanda->fetchAll();
+
 
 // Titlul paginii, folosit de antet
 $titlu = $client['denumire'];
@@ -177,7 +186,31 @@ $titlu = $client['denumire'];
         <?php endif; ?>
   
     </form>
+
+    <h2 class="h4 mt-5">Activități (<?php echo count($activitati); ?>)</h2>
  
+    <?php if (count($activitati) === 0): ?>
+        <p class="text-muted">Nicio activitate încă.</p>
+    <?php else: ?>
+        <ul class="list-group mb-4">
+            <?php foreach ($activitati as $activitate): ?>
+                <li class="list-group-item">
+                    <div class="small text-muted">
+                        <?php echo date('d.m.Y H:i', strtotime($activitate['data_activitate'])); ?>,
+                        <?php echo htmlspecialchars($activitate['utilizator']); ?>,
+                        <?php echo $tipuriActivitate[$activitate['tip']]; ?>
+                        <?php echo durata($activitate['durata_minute']); ?>
+                        <?php if ($activitate['solicitare_id'] !== null): ?>
+                            , <a href="solicitare.php?id=<?php echo $activitate['solicitare_id']; ?>">solicitarea nr. <?php echo $activitate['solicitare_id']; ?></a>
+                        <?php endif; ?>
+                    </div>
+                    <div><?php echo nl2br(htmlspecialchars($activitate['descriere'])); ?></div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+
 </div>
  
 <?php require BASE_PATH . '/app/Views/subsol.php'; ?>
