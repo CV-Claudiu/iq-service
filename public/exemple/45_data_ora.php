@@ -1,0 +1,7 @@
+
+<?php   
+
+$valoare=$_POST{}
+
+
+?>
