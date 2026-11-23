@@ -51,6 +51,10 @@ if (($_GET['echipament'] ?? '') === 'adaugat') {
     $mesaj = 'Echipamentul a fost adăugat.';
 }
 
+if (($_GET['activitate'] ?? '') === 'adaugata') {
+    $mesaj = 'Activitatea a fost adăugată.';
+}
+
 
 // Titlul paginii, folosit de antet
 $titlu = $client['denumire'];
@@ -95,6 +99,8 @@ $titlu = $client['denumire'];
     <?php if (areRol(['administrator', 'operator'])): ?>
         <a href="solicitare_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-warning">Solicitare nouă</a>
     <?php endif; ?>
+
+    <a href="activitate_adauga.php?client_id=<?php echo $client['id']; ?>" class="btn btn-outline-primary">Activitate nouă</a>
 
     <h2 class="h4 mt-5">Echipamente (<?php echo count($echipamente); ?>)</h2>
 
