@@ -62,6 +62,34 @@ $titlu = 'Solicitări';
     <?php if (isset($_GET['adaugat'])): ?>
         <div class="alert alert-success">Solicitarea a fost înregistrată.</div>
     <?php endif; ?>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">Toate statusurile</option>
+                <option value="deschise" <?php echo $filtre['status'] === 'deschise' ? 'selected' : ''; ?>>Deschise (nouă + în lucru)</option>
+                <?php foreach ($statusuri as $cheie => $text): ?>
+                    <option value="<?php echo $cheie; ?>" <?php echo $cheie === $filtre['status'] ? 'selected' : ''; ?>><?php echo $text; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="prioritate" class="form-select">
+                <option value="">Toate prioritățile</option>
+                <?php foreach ($prioritati as $cheie => $text): ?>
+                    <option value="<?php echo $cheie; ?>" <?php echo $cheie === $filtre['prioritate'] ? 'selected' : ''; ?>><?php echo $text; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="cautare" class="form-control" placeholder="Caută în titlu sau client" value="<?php echo htmlspecialchars($filtre['cautare']); ?>">
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Filtrează</button>
+            <a href="solicitari.php" class="btn btn-outline-secondary">Toate</a>
+        </div>
+    </form>
+
  
     <p class="text-muted">Total: <?php echo count($solicitari); ?></p>
  
