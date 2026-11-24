@@ -7,23 +7,46 @@ define('BASE_PATH', dirname(__DIR__));
  
 require BASE_PATH . '/app/init.php';
  
-$sql = 'SELECT solicitari.id, solicitari.titlu, solicitari.prioritate, solicitari.status, solicitari.creat_la,
-               clienti.id AS client_id, clienti.denumire AS client,
-               echipamente.denumire AS echipament,
-               utilizatori.nume AS agent
-        FROM solicitari
-        JOIN clienti          ON clienti.id     = solicitari.client_id
-        LEFT JOIN echipamente ON echipamente.id = solicitari.echipament_id
-        LEFT JOIN utilizatori ON utilizatori.id = solicitari.agent_id
-        WHERE clienti.activ = 1';
+$filtre = [
+    'status'     => $_GET['status'] ?? '',
+    'prioritate' => $_GET['prioritate'] ?? '',
+    'cautare'    => trim($_GET['cautare'] ?? ''),
+];
+ 
+$from = ' FROM solicitari
+          JOIN clienti          ON clienti.id     = solicitari.client_id
+          LEFT JOIN echipamente ON echipamente.id = solicitari.echipament_id
+          LEFT JOIN utilizatori ON utilizatori.id = solicitari.agent_id
+          WHERE clienti.activ = 1';
 $parametri = [];
  
 if (areRol(['agent'])) {
-    $sql .= ' AND solicitari.agent_id = :eu';
+    $from .= ' AND solicitari.agent_id = :eu';
     $parametri['eu'] = $_SESSION['utilizator']['id'];
 }
  
-$sql .= ' ORDER BY solicitari.creat_la DESC';
+if ($filtre['status'] === 'deschise') {
+    $from .= " AND solicitari.status IN ('noua', 'in_lucru')";
+} elseif (isset($statusuri[$filtre['status']])) {
+    $from .= ' AND solicitari.status = :status';
+    $parametri['status'] = $filtre['status'];
+}
+ 
+if (isset($prioritati[$filtre['prioritate']])) {
+    $from .= ' AND solicitari.prioritate = :prioritate';
+    $parametri['prioritate'] = $filtre['prioritate'];
+}
+ 
+if ($filtre['cautare'] !== '') {
+    $from .= ' AND (solicitari.titlu LIKE :cautare1 OR clienti.denumire LIKE :cautare2)';
+    $parametri['cautare1'] = '%' . $filtre['cautare'] . '%';
+    $parametri['cautare2'] = '%' . $filtre['cautare'] . '%';
+}
+ 
+$sql = 'SELECT solicitari.id, solicitari.titlu, solicitari.prioritate, solicitari.status, solicitari.creat_la,
+               clienti.id AS client_id, clienti.denumire AS client,
+               echipamente.denumire AS echipament,
+               utilizatori.nume AS agent' . $from . ' ORDER BY solicitari.creat_la DESC, solicitari.id DESC';
  
 $comanda = $pdo->prepare($sql);
 $comanda->execute($parametri);
