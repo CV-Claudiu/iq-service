@@ -137,6 +137,19 @@ $titlu = 'Solicitări';
             <?php endforeach; ?>
         </tbody>
     </table>
+
+    <?php if ($pagini > 1): ?>
+        <nav>
+            <ul class="pagination">
+                <?php for ($p = 1; $p <= $pagini; $p++): ?>
+                    <li class="page-item <?php echo $p === $pagina ? 'active' : ''; ?>">
+                        <a class="page-link" href="solicitari.php?<?php echo http_build_query(array_merge($filtre, ['pagina' => $p])); ?>"><?php echo $p; ?></a>
+                    </li>
+                <?php endfor; ?>
+            </ul>
+        </nav>
+    <?php endif; ?>
+
  
 <?php require BASE_PATH . '/app/Views/subsol.php'; ?>
 
