@@ -43,14 +43,30 @@ if ($filtre['cautare'] !== '') {
     $parametri['cautare2'] = '%' . $filtre['cautare'] . '%';
 }
  
+$pePagina = 10;
+ 
+$pagina = max(1, (int) ($_GET['pagina'] ?? 1));
+ 
+$comanda = $pdo->prepare('SELECT COUNT(*)' . $from);
+$comanda->execute($parametri);
+$total = (int) $comanda->fetchColumn();
+ 
+$pagini = max(1, (int) ceil($total / $pePagina));
+ 
+$pagina = min($pagina, $pagini);
+ 
+$offset = ($pagina - 1) * $pePagina;
+ 
 $sql = 'SELECT solicitari.id, solicitari.titlu, solicitari.prioritate, solicitari.status, solicitari.creat_la,
                clienti.id AS client_id, clienti.denumire AS client,
                echipamente.denumire AS echipament,
-               utilizatori.nume AS agent' . $from . ' ORDER BY solicitari.creat_la DESC, solicitari.id DESC';
+               utilizatori.nume AS agent' . $from . ' ORDER BY solicitari.creat_la DESC, solicitari.id DESC
+        LIMIT ' . $pePagina . ' OFFSET ' . $offset;
  
 $comanda = $pdo->prepare($sql);
 $comanda->execute($parametri);
 $solicitari = $comanda->fetchAll();
+
 
  
 $titlu = 'Solicitări';
@@ -91,7 +107,7 @@ $titlu = 'Solicitări';
     </form>
 
  
-    <p class="text-muted">Total: <?php echo count($solicitari); ?></p>
+    <p class="text-muted">Total: <?php echo $total; ?> (pagina <?php echo $pagina; ?> din <?php echo $pagini; ?>)</p>
  
     <table class="table table-striped table-hover">
         <thead class="table-dark">
