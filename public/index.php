@@ -60,6 +60,20 @@ if (areRol(['administrator', 'operator'])) {
     }
 }
 
+// Ultimele 5 activități (agentul le vede doar pe ale lui)
+$sql = 'SELECT activitati.*, utilizatori.nume AS utilizator, clienti.denumire AS client
+        FROM activitati
+        JOIN utilizatori ON utilizatori.id = activitati.utilizator_id
+        JOIN clienti     ON clienti.id     = activitati.client_id';
+if (areRol(['agent'])) {
+    $sql .= ' WHERE activitati.utilizator_id = :eu';
+}
+$sql .= ' ORDER BY activitati.data_activitate DESC LIMIT 5';
+ 
+$comanda = $pdo->prepare($sql);
+$comanda->execute($parametri);
+$ultimeleActivitati = $comanda->fetchAll();
+
 
 // Titlul paginii, folosit de antet
 $titlu = 'Pagina de start';
@@ -125,6 +139,25 @@ $titlu = 'Pagina de start';
         </table>
     <?php endif; ?>
    
+        <h2 class="h5 mt-4">Ultimele activități</h2>
+    <?php if (count($ultimeleActivitati) === 0): ?>
+        <p class="text-muted">Nicio activitate încă.</p>
+    <?php else: ?>
+        <ul class="list-group" style="max-width: 800px;">
+            <?php foreach ($ultimeleActivitati as $activitate): ?>
+                <li class="list-group-item">
+                    <div class="small text-muted">
+                        <?php echo date('d.m.Y H:i', strtotime($activitate['data_activitate'])); ?>,
+                        <?php echo htmlspecialchars($activitate['utilizator']); ?>,
+                        <?php echo $tipuriActivitate[$activitate['tip']]; ?>,
+                        <a href="client.php?id=<?php echo $activitate['client_id']; ?>"><?php echo htmlspecialchars($activitate['client']); ?></a>
+                    </div>
+                    <div><?php echo htmlspecialchars($activitate['descriere']); ?></div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
    
     <h2 class="h5 mt-4">Date generale</h2>
     
