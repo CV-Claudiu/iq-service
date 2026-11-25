@@ -43,6 +43,23 @@ $nealocate = $pdo->query("SELECT COUNT(*) FROM solicitari
                           WHERE clienti.activ = 1 AND solicitari.agent_id IS NULL
                             AND solicitari.status IN ('noua', 'in_lucru')")->fetchColumn();
 
+// Solicitări deschise pe tehnician (doar pentru administrator și operator)
+$peTehnician = [];
+$maxim       = 1;
+if (areRol(['administrator', 'operator'])) {
+    $peTehnician = $pdo->query("SELECT utilizatori.nume, COUNT(solicitari.id) AS deschise
+                                FROM utilizatori
+                                LEFT JOIN solicitari ON solicitari.agent_id = utilizatori.id
+                                                    AND solicitari.status IN ('noua', 'in_lucru')
+                                WHERE utilizatori.rol = 'agent' AND utilizatori.activ = 1
+                                GROUP BY utilizatori.id, utilizatori.nume
+                                ORDER BY deschise DESC")->fetchAll();
+ 
+    foreach ($peTehnician as $rand) {
+        $maxim = max($maxim, $rand['deschise']);
+    }
+}
+
 
 // Titlul paginii, folosit de antet
 $titlu = 'Pagina de start';
@@ -90,8 +107,26 @@ $titlu = 'Pagina de start';
         <?php endif; ?>
     </div>
  
+   
+    <?php if (areRol(['administrator', 'operator'])): ?>
+        <h2 class="h5 mt-4">Solicitări deschise pe tehnician</h2>
+        <table class="table table-sm" style="max-width: 600px;">
+            <?php foreach ($peTehnician as $rand): ?>
+                <tr>
+                    <td style="width: 35%;"><?php echo htmlspecialchars($rand['nume']); ?></td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: <?php echo round($rand['deschise'] / $maxim * 100); ?>%;"></div>
+                        </div>
+                    </td>
+                    <td class="text-end" style="width: 10%;"><?php echo $rand['deschise']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+   
+   
     <h2 class="h5 mt-4">Date generale</h2>
-
     
     <div class="row g-3 mt-2">
         <div class="col-md-4">
