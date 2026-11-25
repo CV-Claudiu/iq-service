@@ -52,6 +52,47 @@ $titlu = 'Pagina de start';
     <h1>Bun venit<?php echo $numeUtilizator !== '' ? ', ' . htmlspecialchars($numeUtilizator) : ''; ?>!</h1>
     <p class="text-muted">IQ SERVICE - aplicație CRM pentru service echipamente de automatizare</p>
  
+    <h2 class="h5 mt-4"><?php echo areRol(['agent']) ? 'Solicitările mele' : 'Solicitări'; ?></h2>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card text-center border-primary h-100">
+                <div class="card-body">
+                    <div class="display-6"><?php echo $deschise; ?></div>
+                    <a href="solicitari.php?status=deschise">deschise</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-danger h-100">
+                <div class="card-body">
+                    <div class="display-6 text-danger"><?php echo $urgente; ?></div>
+                    <a href="solicitari.php?status=deschise&prioritate=urgenta">urgente, deschise</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-success h-100">
+                <div class="card-body">
+                    <div class="display-6"><?php echo $deInchis; ?></div>
+                    <a href="solicitari.php?status=rezolvata">rezolvate, de închis</a>
+                </div>
+            </div>
+        </div>
+        <?php if (areRol(['administrator', 'operator'])): ?>
+            <div class="col-md-3">
+                <div class="card text-center border-warning h-100">
+                    <div class="card-body">
+                        <div class="display-6"><?php echo $nealocate; ?></div>
+                        <span>deschise, fără tehnician</span>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+ 
+    <h2 class="h5 mt-4">Date generale</h2>
+
+    
     <div class="row g-3 mt-2">
         <div class="col-md-4">
             <div class="card text-center">
