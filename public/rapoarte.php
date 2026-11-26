@@ -35,7 +35,20 @@ $comanda->execute($parametri);
 $peStatus = $comanda->fetchAll(PDO::FETCH_KEY_PAIR);
  
 $totalPerioada = array_sum($peStatus);
- 
+
+$comanda = $pdo->prepare('SELECT utilizatori.nume, utilizatori.rol,
+                                 COUNT(activitati.id) AS activitati,
+                                 COALESCE(SUM(activitati.durata_minute), 0) AS minute
+                          FROM utilizatori
+                          LEFT JOIN activitati ON activitati.utilizator_id = utilizatori.id
+                                              AND activitati.data_activitate >= :de_la
+                                              AND activitati.data_activitate < DATE_ADD(:pana_la, INTERVAL 1 DAY)
+                          WHERE utilizatori.activ = 1
+                          GROUP BY utilizatori.id, utilizatori.nume, utilizatori.rol
+                          ORDER BY minute DESC, utilizatori.nume');
+$comanda->execute($parametri);
+$peOm = $comanda->fetchAll();
+
 // Titlul paginii, folosit de antet
 $titlu = 'Rapoarte';
 ?>
@@ -74,5 +87,28 @@ $titlu = 'Rapoarte';
             <td class="text-end"><?php echo $totalPerioada; ?></td>
         </tr>
     </table>
+
+    <h2 class="h5 mt-4">Activitatea fiecăruia în perioadă</h2>
+    <table class="table table-sm" style="max-width: 700px;">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Rol</th>
+                <th class="text-end">Activități</th>
+                <th class="text-end">Timp lucrat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($peOm as $rand): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($rand['nume']); ?></td>
+                    <td><?php echo $rand['rol']; ?></td>
+                    <td class="text-end"><?php echo $rand['activitati']; ?></td>
+                    <td class="text-end"><?php echo (int) $rand['minute'] > 0 ? durata((int) $rand['minute']) : '-'; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+
  
 <?php require BASE_PATH . '/app/Views/subsol.php'; ?>
