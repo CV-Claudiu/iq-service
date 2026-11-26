@@ -1,7 +1,9 @@
 <?php
 // IQ SERVICE - rapoarte pe o perioadă (Ziua 23)
 // Solicitările înregistrate pe status și activitatea fiecărui om, între două date alese.
- 
+/** @var array $prioritati */
+/** @var array $statusuri */
+/** @var array $culoriStatus */ 
  
 define('BASE_PATH', dirname(__DIR__));
  
