@@ -67,6 +67,8 @@ $titlu = 'Rapoarte';
         </div>
         <div class="col-md-6 d-flex gap-2">
             <button type="submit" class="btn btn-primary">Arată raportul</button>
+            <a href="export_solicitari.php?de_la=<?php echo $deLa; ?>&pana_la=<?php echo $panaLa; ?>" class="btn btn-success">Exportă solicitările (CSV)</a>
+                
         </div>
     </form>
  
